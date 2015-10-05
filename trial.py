@@ -25,10 +25,20 @@ from trackmaster import Treadmill
 
 
 def run_trial(treadmill, speeds, plateau_time):
-    for speed in speeds:
-        treadmill.speed = speed
-        print('set speed to {:.1f}'.format(speed))
-        sleep(plateau_time)
+    treadmill.speed = speeds[0]
+    print('Set speed to {:.1f}.'.format(speeds[0]))
+    print('Instruct participant to start walking.')
+    input('Press ENTER to continue.')
+
+    try:
+        for speed in speeds:
+            treadmill.speed = speed
+            print('Set speed to {:.1f}.'.format(speed))
+            sleep(plateau_time)
+
+    finally:
+        print('Stopping treadmill...')
+        treadmill.auto_stop()
 
 
 def main(args=None):
@@ -41,4 +51,8 @@ def main(args=None):
 
     plateau_time = args['<plateau-time>']
 
-    run_trial(treadmill, speeds, plateau_time)
+    run_trial(treadmill, speeds, float(plateau_time))
+
+
+if __name__ == '__main__':
+  main()
